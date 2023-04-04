@@ -91,12 +91,13 @@ contract AaveV3ArbDebtCeiling_20230404_Test is ProtocolV3TestBase, TestWithExecu
   }
 }
 
-contract AaveV3AvaDebtCeiling_20230404_Test is ProtocolV3TestBase {
+contract AaveV3AvaDebtCeiling_20230404_Test is ProtocolV3TestBase, TestWithExecutor {
   address public constant GUARDIAN_AVALANCHE =
       0xa35b76E4935449E33C56aB24b23fcd3246f13470;
 
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('avalanche'), 28282486);
+    _selectPayloadExecutor(GUARDIAN_AVALANCHE);
   }
 
   function testPayload() public {
@@ -104,15 +105,9 @@ contract AaveV3AvaDebtCeiling_20230404_Test is ProtocolV3TestBase {
 
     createConfigurationSnapshot('preAaveV3AvaDebtCeiling_20230404_Change', AaveV3Avalanche.POOL);
 
-    vm.startPrank(GUARDIAN_AVALANCHE);
-
     AaveV3AvaDebtCeiling_20230404 proposalPayload = new AaveV3AvaDebtCeiling_20230404();
-    IACLManager aclManager = IACLManager(AaveV3Avalanche.ACL_MANAGER);
-    aclManager.grantRole(aclManager.RISK_ADMIN_ROLE(), address(proposalPayload));
 
-    vm.stopPrank();
-
-    proposalPayload.execute();
+    _executePayload(address(proposalPayload));
 
     createConfigurationSnapshot('postAaveV3AvaDebtCeiling_20230404_Change', AaveV3Avalanche.POOL);
 
@@ -131,7 +126,5 @@ contract AaveV3AvaDebtCeiling_20230404_Test is ProtocolV3TestBase {
     ProtocolV3TestBase._validateReserveConfig(fraxBefore, allConfigsAfter);
 
     diffReports('preAaveV3AvaDebtCeiling_20230404_Change', 'postAaveV3AvaDebtCeiling_20230404_Change');
-
-    assertFalse(aclManager.isRiskAdmin(address(proposalPayload)));
   }
 }

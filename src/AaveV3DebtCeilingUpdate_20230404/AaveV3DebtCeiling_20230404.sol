@@ -70,15 +70,6 @@ contract AaveV3ArbDebtCeiling_20230404 is AaveV3PayloadArbitrum {
  * - Discussion: https://governance.aave.com/t/gauntlet-aave-v3-isolation-mode-methodology/12290
  */
 contract AaveV3AvaDebtCeiling_20230404 is AaveV3PayloadAvalanche {
-  function _postExecute() internal override {
-    IACLManager aclManager = AaveV3Avalanche.ACL_MANAGER;
-
-    aclManager.renounceRole(
-      aclManager.RISK_ADMIN_ROLE(),
-      address(this)
-    );
-  }
-
   function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
     IEngine.CollateralUpdate[] memory collateralsUpdate = new IEngine.CollateralUpdate[](1);
 
