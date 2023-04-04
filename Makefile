@@ -79,5 +79,7 @@ deploy-debt-ceiling-apr4-pol-payload :; forge script src/AaveV3DebtCeilingUpdate
 deploy-debt-ceiling-apr4-pol-payload-dry :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:DeployPayloadPolygon --rpc-url polygon -vvvv
 deploy-debt-ceiling-apr4-arb-payload :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:DeployPayloadArbitrum --rpc-url arbitrum --broadcast --legacy --private-key ${PRIVATE_KEY} --verify -vvvv
 deploy-debt-ceiling-apr4-arb-payload-dry :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:DeployPayloadArbitrum --rpc-url arbitrum -vvvv
+deploy-debt-ceiling-apr4-ava-payload :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:DeployPayloadAvalanche --rpc-url avalanche --broadcast --legacy --private-key ${PRIVATE_KEY} --verify -vvvv
+deploy-debt-ceiling-apr4-ava-payload-dry :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:DeployPayloadAvalanche --rpc-url avalanche -vvvv
 
 emit-debt-ceiling-apr4-proposal :; forge script src/AaveV3DebtCeilingUpdate_20230404/DeployAaveV3DebtCeiling_20230404.s.sol:CreateProposal --rpc-url mainnet -vvvv --sender 0x25F2226B597E8F9514B3F68F00f494cF4f286491

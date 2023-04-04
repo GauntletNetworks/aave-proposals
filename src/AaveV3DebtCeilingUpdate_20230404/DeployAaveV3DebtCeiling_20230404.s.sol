@@ -1,8 +1,8 @@
 pragma solidity ^0.8.16;
 
 import {GovHelpers} from 'aave-helpers/GovHelpers.sol';
-import {EthereumScript, PolygonScript, ArbitrumScript} from 'aave-helpers/../script/Utils.s.sol';
-import {AaveV3PolDebtCeiling_20230404,AaveV3ArbDebtCeiling_20230404} from './AaveV3DebtCeiling_20230404.sol';
+import {EthereumScript, PolygonScript, ArbitrumScript, AvalancheScript} from 'aave-helpers/../script/Utils.s.sol';
+import {AaveV3PolDebtCeiling_20230404,AaveV3ArbDebtCeiling_20230404,AaveV3AvaDebtCeiling_20230404} from './AaveV3DebtCeiling_20230404.sol';
 
 contract CreateProposal is EthereumScript {
   function run() external broadcast {
@@ -22,5 +22,11 @@ contract DeployPayloadPolygon is PolygonScript {
 contract DeployPayloadArbitrum is ArbitrumScript {
   function run() external broadcast {
     new AaveV3ArbDebtCeiling_20230404();
+  }
+}
+
+contract DeployPayloadAvalanche is AvalancheScript {
+  function run() external broadcast {
+    new AaveV3AvaDebtCeiling_20230404();
   }
 }
