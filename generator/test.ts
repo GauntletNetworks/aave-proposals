@@ -1,5 +1,12 @@
 import {BigNumber} from '@ethersproject/bignumber';
-import {AllUpdates, EngineValue, KEEP_CURRENT, NetworkUpdate, Networks} from '.';
+import {
+  AllUpdates,
+  EngineValue,
+  KEEP_CURRENT,
+  NetworkUpdate,
+  Networks,
+  foundryNetworkNamePerNetwork,
+} from '.';
 
 const executorPerNetwork: Record<Networks, string> = {
   Ethereum: 'AaveGovernanceV2.SHORT_EXECUTOR',
@@ -8,14 +15,6 @@ const executorPerNetwork: Record<Networks, string> = {
   Optimism: 'AaveGovernanceV2.OPTIMISM_BRIDGE_EXECUTOR',
   // Avalanche guardian address
   Avalanche: '0xa35b76E4935449E33C56aB24b23fcd3246f13470',
-};
-
-const foundryNetworkNamePerNetwork: Record<Networks, string> = {
-  Ethereum: 'mainnet',
-  Polygon: 'polygon',
-  Arbitrum: 'arbitrum',
-  Optimism: 'optimism',
-  Avalanche: 'avalanche',
 };
 
 type ReserveConfigChanges = Partial<{
