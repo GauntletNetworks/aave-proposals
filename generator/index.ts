@@ -78,6 +78,14 @@ export const govHelperNetworkNames: Record<Networks, string> = {
   Avalanche: 'Avalanche',
 };
 
+export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
+  Ethereum: 'mainnet',
+  Polygon: 'polygon',
+  Arbitrum: 'arbitrum',
+  Optimism: 'optimism',
+  Avalanche: 'avalanche',
+};
+
 export interface NetworkUpdate {
   forkBlockNumber: number;
   capsUpdates?: CapsUpdate[];
@@ -192,13 +200,39 @@ const updates = {
   Polygon: polygonUpdate,
 } satisfies AllUpdates;
 
+function generateMakeCommands(updateDate: string, updates: AllUpdates) {
+  const networks = Object.keys(updates) as Networks[];
+
+  const deployScriptFile = `src/AaveV3Update_${updateDate}/DeployAaveV3Update_${updateDate}.s.sol`;
+
+  const commands: string[] = [];
+  for (const network of networks) {
+    const deployCommandName = `deploy-${network.toLowerCase()}-payload-${updateDate}`;
+    const dryCommandName = `${deployCommandName}-dry`;
+
+    const deployDry = `forge script ${deployScriptFile}:Deploy${updateDate}Payload${network} --rpc-url ${foundryNetworkNamePerNetwork[network]} -vvvv`;
+    const deploy = `${deployDry} --broadcast --legacy --private-key \${PRIVATE_KEY} --verify`;
+    commands.push(`${dryCommandName}:; ${deployDry}`);
+    commands.push(`${deployCommandName}:; ${deploy}`);
+  }
+
+  commands.push(
+    `emit-create-proposal-${updateDate}:; forge script ${deployScriptFile}:CreateProposal --rpc-url mainnet -vv --sender 0x25F2226B597E8F9514B3F68F00f494cF4f286491`
+  );
+
+  return commands.join('\n');
+}
+
 async function main() {
   const updateDate = '20230329';
   const files = generateAaveV3UpdateFiles(updateDate, updates);
+  const commands = generateMakeCommands(updateDate, updates);
   const folderPath = `src/AaveV3Update_${updateDate}`;
 
   createFolder(folderPath);
   createFiles(folderPath, files);
+
+  console.log('Makefile commands:\n\n' + commands);
 }
 
 main()
