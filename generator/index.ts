@@ -4,6 +4,8 @@ import * as path from 'path';
 import {generatePayloadFile} from './payload';
 import {generateDeployFile} from './deploy';
 import {generateTestFile} from './test';
+import yargs from 'yargs';
+import {hideBin} from 'yargs/helpers';
 
 // Function to create a folder if it doesn't exist
 function createFolder(folderPath: string): void {
@@ -136,70 +138,6 @@ function generateAaveV3UpdateFiles(updateDate: string, updates: AllUpdates): Fil
   };
 }
 
-const arbUpdate = {
-  forkBlockNumber: 82691135,
-  capsUpdates: [
-    {
-      asset: 'WETH_UNDERLYING',
-      supplyCap: BigNumber.from(45001),
-      borrowCap: KEEP_CURRENT,
-    },
-  ],
-} satisfies NetworkUpdate;
-
-const ethUpdate = {
-  forkBlockNumber: 17093012,
-  capsUpdates: [
-    {
-      asset: 'rETH_UNDERLYING',
-      supplyCap: BigNumber.from(20001),
-      borrowCap: KEEP_CURRENT,
-    },
-    {
-      asset: 'CRV_UNDERLYING',
-      supplyCap: BigNumber.from(51000001),
-      borrowCap: KEEP_CURRENT,
-    },
-  ],
-} satisfies NetworkUpdate;
-
-const polygonUpdate = {
-  forkBlockNumber: 41776268,
-  collateralUpdates: [
-    {
-      asset: 'USDC_UNDERLYING',
-      ltv: BigNumber.from(8000),
-      liqBonus: KEEP_CURRENT,
-      liqThreshold: KEEP_CURRENT,
-      debtCeiling: KEEP_CURRENT,
-      liqProtocolFee: KEEP_CURRENT,
-      eModeCategory: KEEP_CURRENT,
-    },
-  ],
-  rateStrategyUpdates: [
-    {
-      asset: 'miMATIC_UNDERLYING',
-      params: {
-        optimalUsageRatio: BigNumber.from(80_00),
-        baseVariableBorrowRate: BigNumber.from(1_00),
-        variableRateSlope1: BigNumber.from(3_80),
-        variableRateSlope2: BigNumber.from(80_00),
-        stableRateSlope1: BigNumber.from(4_00),
-        stableRateSlope2: BigNumber.from(80_00),
-        baseStableRateOffset: BigNumber.from(3_00),
-        stableRateExcessOffset: KEEP_CURRENT,
-        optimalStableToTotalDebtRatio: KEEP_CURRENT,
-      },
-    },
-  ],
-} satisfies NetworkUpdate;
-
-const updates = {
-  Arbitrum: arbUpdate,
-  Ethereum: ethUpdate,
-  Polygon: polygonUpdate,
-} satisfies AllUpdates;
-
 function generateMakeCommands(updateDate: string, updates: AllUpdates) {
   const networks = Object.keys(updates) as Networks[];
 
@@ -224,15 +162,57 @@ function generateMakeCommands(updateDate: string, updates: AllUpdates) {
 }
 
 async function main() {
-  const updateDate = '20230329';
-  const files = generateAaveV3UpdateFiles(updateDate, updates);
-  const commands = generateMakeCommands(updateDate, updates);
-  const folderPath = `src/AaveV3Update_${updateDate}`;
+  await yargs(hideBin(process.argv))
+    .command(
+      'generate',
+      'Generate new AaveV3 update',
+      (yargs) => {
+        return yargs
+          .option('updateDate', {
+            alias: 'ud',
+            describe: "Update date in YYYYMMDD format. Example: '20230320'",
+            type: 'string',
+            demandOption: true,
+          })
+          .option('updateFile', {
+            alias: 'uf',
+            describe: 'Path to the typescript update file which exports an AllUpdates value',
+            type: 'string',
+            demandOption: true,
+          })
+          .option('dry', {
+            alias: 'd',
+            describe: "Dry run, don't generate files.",
+            type: 'boolean',
+            default: false,
+          });
+      },
+      async (argv) => {
+        const updateDate = argv.updateDate as string;
+        const updateFile = argv.updateFile as string;
 
-  createFolder(folderPath);
-  createFiles(folderPath, files);
+        const updates: AllUpdates = (await import(path.join('..', updateFile))).default;
 
-  console.log('Makefile commands:\n\n' + commands);
+        const files = generateAaveV3UpdateFiles(updateDate, updates);
+        const commands = generateMakeCommands(updateDate, updates);
+        const folderPath = `src/AaveV3Update_${updateDate}`;
+
+        if (!argv.dry) {
+          createFolder(folderPath);
+          createFiles(folderPath, files);
+
+          console.log('Makefile commands:\n\n' + commands);
+        }
+      }
+    )
+    .option('verbose', {
+      alias: 'v',
+      type: 'boolean',
+      description: 'Run with verbose logging',
+    })
+    .demandCommand(1, 'Must pass at least one command')
+    .help()
+    .parseAsync();
 }
 
 main()
