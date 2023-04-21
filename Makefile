@@ -100,8 +100,17 @@ test-aci-proposal :; forge test -vvv --match-contract AaveV3ACIProposal_20230411
 deploy-aci-payload :; forge script src/AaveV3ACIProposal_20230411/DeployMainnetACIPayload.s.sol:DeployMainnetACIPayload --rpc-url mainnet --broadcast --legacy --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify -vvvv
 create-aci-payload :; forge script src/AaveV3ACIProposal_20230411/DeployMainnetACIPayload.s.sol:ACIPayloadProposal --rpc-url mainnet --broadcast --legacy --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify -vvvv
 
-# AAVE risk params  
+# AAVE risk params
 
 test-aave-risk-params :; forge test -vvv --match-contract AaveV3RiskParams_20230516_Test
 deploy-aci-payload :; forge script src/AaveV3RiskParams_20230516/DeployMainnetACIPayload.s.sol:DeployMainnetACIPayload --rpc-url mainnet --broadcast --legacy --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify -vvvv
 create-aci-payload :; forge script src/AaveV3RiskParams_20230516/DeployMainnetACIPayload.s.sol:ACIPayloadProposal --rpc-url mainnet --broadcast --legacy --ledger --mnemonic-indexes ${MNEMONIC_INDEX} --sender ${LEDGER_SENDER} --verify -vvvv
+
+# Test generated proposal
+deploy-arbitrum-payload-20230329-dry:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadArbitrum --rpc-url arbitrum -vvvv
+deploy-arbitrum-payload-20230329:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadArbitrum --rpc-url arbitrum -vvvv --broadcast --legacy --private-key ${PRIVATE_KEY} --verify
+deploy-ethereum-payload-20230329-dry:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadEthereum --rpc-url mainnet -vvvv
+deploy-ethereum-payload-20230329:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadEthereum --rpc-url mainnet -vvvv --broadcast --legacy --private-key ${PRIVATE_KEY} --verify
+deploy-polygon-payload-20230329-dry:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadPolygon --rpc-url polygon -vvvv
+deploy-polygon-payload-20230329:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:Deploy20230329PayloadPolygon --rpc-url polygon -vvvv --broadcast --legacy --private-key ${PRIVATE_KEY} --verify
+emit-create-proposal-20230329:; forge script src/AaveV3Update_20230329/DeployAaveV3Update_20230329.s.sol:CreateProposal --rpc-url mainnet -vv --sender 0x25F2226B597E8F9514B3F68F00f494cF4f286491
