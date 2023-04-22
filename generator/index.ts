@@ -6,6 +6,9 @@ import {generateDeployFile} from './deploy';
 import {generateTestFile} from './test';
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
+import fm from 'front-matter';
+import {uploadToIpfs} from './ipfs';
+import dotenv from 'dotenv';
 
 // Function to create a folder if it doesn't exist
 function createFolder(folderPath: string): void {
@@ -203,6 +206,29 @@ async function main() {
 
           console.log('Makefile commands:\n\n' + commands);
         }
+      }
+    )
+    .command(
+      'upload-ipfs',
+      'Upload proposal descriptions to IPFS',
+      (yargs) => {
+        return yargs.option('description', {
+          alias: 'd',
+          describe: 'Path to the description file',
+          type: 'string',
+          demandOption: true,
+        });
+      },
+      async (argv) => {
+        // We need IPFS uploading secrets for this task.
+        dotenv.config();
+
+        const description = argv.description as string;
+        const descriptionContent = fs.readFileSync(description, 'utf8');
+
+        const parsedContent = fm(descriptionContent);
+
+        await uploadToIpfs(parsedContent.attributes as any, parsedContent.body);
       }
     )
     .option('verbose', {
