@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+  },
+  "include": [
+    "generator/**/*",
+    "specs/**/*",
+  ],
+  "exclude": ["node_modules"],
+  "files": ["./types/stream-to-it.d.ts"]
+}
