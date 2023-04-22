@@ -5,7 +5,7 @@ import {
   valueOrKeepCurrent,
   Networks,
   NetworkUpdate,
-} from '.';
+} from './index.js';
 
 export function generatePayloadFile(updateDate: string, updates: AllUpdates): string {
   const payloadFile = `// SPDX-License-Identifier: MIT

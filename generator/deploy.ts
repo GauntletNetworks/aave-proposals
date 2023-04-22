@@ -1,4 +1,4 @@
-import {AllUpdates, govHelperNetworkNames, Networks} from '.';
+import {AllUpdates, govHelperNetworkNames, Networks} from './index.js';
 
 export function generateDeployFile(updateDate: string, updates: AllUpdates): string {
   return `// SPDX-License-Identifier: MIT
