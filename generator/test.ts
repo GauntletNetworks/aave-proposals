@@ -6,7 +6,7 @@ import {
   NetworkUpdate,
   Networks,
   foundryNetworkNamePerNetwork,
-} from '.';
+} from './index.js';
 
 const executorPerNetwork: Record<Networks, string> = {
   Ethereum: 'AaveGovernanceV2.SHORT_EXECUTOR',

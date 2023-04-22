@@ -86,8 +86,7 @@ export async function uploadToIpfs(attributes: Attributes, body: string) {
 }
 
 function encodeIpfsHash(hash: string) {
-  const encodedHash = `0x${bs58.decode(hash).subarray(2).toString('hex')}`;
-  return encodedHash;
+  return `0x${bs58.decode(hash).subarray(2).toString('hex')}`;
 }
 
 async function pinToTheGraph(hash: string) {
