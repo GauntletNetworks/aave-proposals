@@ -1,14 +1,18 @@
 import {BigNumber} from '@ethersproject/bignumber';
 import * as fs from 'fs';
 import * as path from 'path';
-import {generatePayloadFile} from './payload';
-import {generateDeployFile} from './deploy';
-import {generateTestFile} from './test';
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
 import fm from 'front-matter';
-import {uploadToIpfs} from './ipfs';
 import dotenv from 'dotenv';
+import {$} from 'execa';
+
+import {uploadToIpfs} from './ipfs.js';
+import {generatePayloadFile} from './payload.js';
+import {generateDeployFile} from './deploy.js';
+import {generateTestFile} from './test.js';
+
+const $$ = $({stdio: 'inherit', verbose: true});
 
 // Function to create a folder if it doesn't exist
 function createFolder(folderPath: string): void {
@@ -141,24 +145,23 @@ function generateAaveV3UpdateFiles(updateDate: string, updates: AllUpdates): Fil
   };
 }
 
-function generateMakeCommands(updateDate: string, updates: AllUpdates) {
+function generateFollowupCommands(updateDate: string, updates: AllUpdates) {
   const networks = Object.keys(updates) as Networks[];
 
-  const deployScriptFile = `src/AaveV3Update_${updateDate}/DeployAaveV3Update_${updateDate}.s.sol`;
-
   const commands: string[] = [];
-  for (const network of networks) {
-    const deployCommandName = `deploy-${network.toLowerCase()}-payload-${updateDate}`;
-    const dryCommandName = `${deployCommandName}-dry`;
+  commands.push(`To Test:\n  yarn ts-node generator/index.ts test --ud ${updateDate}`);
+  commands.push(
+    `To Upload IPFS Blob:\n  yarn ts-node generator/index.ts upload-ipfs -d specs/description${updateDate}.md`
+  );
 
-    const deployDry = `forge script ${deployScriptFile}:Deploy${updateDate}Payload${network} --rpc-url ${foundryNetworkNamePerNetwork[network]} -vvvv`;
-    const deploy = `${deployDry} --broadcast --legacy --private-key \${PRIVATE_KEY} --verify`;
-    commands.push(`${dryCommandName}:; ${deployDry}`);
-    commands.push(`${deployCommandName}:; ${deploy}`);
+  for (const network of networks) {
+    commands.push(
+      `To Deploy ${network} Payload:\n  yarn ts-node generator/index.ts deploy --ud ${updateDate} --network ${network}`
+    );
   }
 
   commands.push(
-    `emit-create-proposal-${updateDate}:; forge script ${deployScriptFile}:CreateProposal --rpc-url mainnet -vv --sender 0x25F2226B597E8F9514B3F68F00f494cF4f286491`
+    `After adding IPFS and payload addresses to CreateProposal:\n  yarn ts-node generator/index.ts emit-proposal --ud ${updateDate}`
   );
 
   return commands.join('\n');
@@ -197,14 +200,15 @@ async function main() {
         const updates: AllUpdates = (await import(path.join('..', updateFile))).default;
 
         const files = generateAaveV3UpdateFiles(updateDate, updates);
-        const commands = generateMakeCommands(updateDate, updates);
         const folderPath = `src/AaveV3Update_${updateDate}`;
+        const commands = generateFollowupCommands(updateDate, updates);
 
         if (!argv.dry) {
           createFolder(folderPath);
           createFiles(folderPath, files);
 
-          console.log('Makefile commands:\n\n' + commands);
+          console.log('✅ Generator Success!');
+          console.log(commands);
         }
       }
     )
@@ -229,6 +233,86 @@ async function main() {
         const parsedContent = fm(descriptionContent);
 
         await uploadToIpfs(parsedContent.attributes as any, parsedContent.body);
+      }
+    )
+    .command(
+      'test',
+      'Run the tests for a given update using forge',
+      (yargs) => {
+        return yargs.option('updateDate', {
+          alias: 'ud',
+          describe: "Update date in YYYYMMDD format. Example: '20230320'",
+          type: 'string',
+          demandOption: true,
+        });
+      },
+      async (argv) => {
+        // We need rpc url secrets for this command.
+        dotenv.config();
+
+        await $$`forge test --match-contract AaveV3.*Update_${argv.updateDate}_Test -vv`;
+      }
+    )
+    .command(
+      'deploy',
+      'Deploy and verify the payload contract for a given update and network',
+      (yargs) => {
+        return yargs
+          .option('updateDate', {
+            alias: 'ud',
+            describe: "Update date in YYYYMMDD format. Example: '20230320'",
+            type: 'string',
+            demandOption: true,
+          })
+          .option('network', {
+            alias: 'n',
+            describe: 'Which payload should be deployed',
+            type: 'string',
+            demandOption: true,
+          })
+          .option('dry', {
+            alias: 'd',
+            describe: "Dry run, don't broadcast transactions.",
+            type: 'boolean',
+            default: false,
+          });
+      },
+      async (argv) => {
+        // We need rpc url secrets for this command.
+        dotenv.config();
+
+        const network = argv.network as Networks;
+        const updateDate = argv.updateDate as string;
+        const isDry = argv.dry as boolean;
+
+        const broadcastOptions = isDry
+          ? ''
+          : `--broadcast --legacy --private-key ${process.env.PRIVATE_KEY} --verify`.split(' ');
+
+        const deployScriptFile = `src/AaveV3Update_${updateDate}/DeployAaveV3Update_${updateDate}.s.sol`;
+
+        await $$`forge script ${deployScriptFile}:Deploy${updateDate}Payload${network} --rpc-url ${foundryNetworkNamePerNetwork[network]} -vvvv ${broadcastOptions}`;
+      }
+    )
+    .command(
+      'emit-proposal',
+      'Emit proposal calldata for a given update based on the details in CreateProposal',
+      (yargs) => {
+        return yargs.option('updateDate', {
+          alias: 'ud',
+          describe: "Update date in YYYYMMDD format. Example: '20230320'",
+          type: 'string',
+          demandOption: true,
+        });
+      },
+      async (argv) => {
+        // We need rpc url secrets for this command.
+        dotenv.config();
+
+        const updateDate = argv.updateDate as string;
+        const deployScriptFile = `src/AaveV3Update_${updateDate}/DeployAaveV3Update_${updateDate}.s.sol`;
+
+        await $$`forge script ${deployScriptFile}:CreateProposal --rpc-url mainnet -vv --sender 0x25F2226B597E8F9514B3F68F00f494cF4f286491`;
       }
     )
     .option('verbose', {

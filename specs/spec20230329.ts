@@ -1,5 +1,5 @@
 import {BigNumber} from '@ethersproject/bignumber';
-import {AllUpdates, KEEP_CURRENT, NetworkUpdate} from '../generator';
+import {AllUpdates, KEEP_CURRENT, NetworkUpdate} from '../generator/index.js';
 
 const arbUpdate = {
   forkBlockNumber: 82691135,
