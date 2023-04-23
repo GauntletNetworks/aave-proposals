@@ -1,4 +1,3 @@
-import {BigNumber} from '@ethersproject/bignumber';
 import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
@@ -14,7 +13,6 @@ import {generateTestFile} from './test.js';
 
 const $$ = $({stdio: 'inherit', verbose: true});
 
-// Function to create a folder if it doesn't exist
 function createFolder(folderPath: string): void {
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath);
@@ -30,21 +28,21 @@ type EngineUpdate<T> = {
 };
 
 export type RateStrategyParams = EngineUpdate<{
-  optimalUsageRatio: BigNumber;
-  baseVariableBorrowRate: BigNumber;
-  variableRateSlope1: BigNumber;
-  variableRateSlope2: BigNumber;
-  stableRateSlope1: BigNumber;
-  stableRateSlope2: BigNumber;
-  baseStableRateOffset: BigNumber;
-  stableRateExcessOffset: BigNumber;
-  optimalStableToTotalDebtRatio: BigNumber;
+  optimalUsageRatio: BigInt;
+  baseVariableBorrowRate: BigInt;
+  variableRateSlope1: BigInt;
+  variableRateSlope2: BigInt;
+  stableRateSlope1: BigInt;
+  stableRateSlope2: BigInt;
+  baseStableRateOffset: BigInt;
+  stableRateExcessOffset: BigInt;
+  optimalStableToTotalDebtRatio: BigInt;
 }>;
 
 export type CapsUpdate = EngineUpdate<{
   asset: string;
-  supplyCap: BigNumber;
-  borrowCap: BigNumber;
+  supplyCap: BigInt;
+  borrowCap: BigInt;
 }>;
 
 export type PriceFeedUpdate = EngineUpdate<{
@@ -54,12 +52,12 @@ export type PriceFeedUpdate = EngineUpdate<{
 
 export type CollateralUpdate = EngineUpdate<{
   asset: string;
-  ltv: BigNumber;
-  liqThreshold: BigNumber;
-  liqBonus: BigNumber;
-  debtCeiling: BigNumber;
-  liqProtocolFee: BigNumber;
-  eModeCategory: BigNumber;
+  ltv: BigInt;
+  liqThreshold: BigInt;
+  liqBonus: BigInt;
+  debtCeiling: BigInt;
+  liqProtocolFee: BigInt;
+  eModeCategory: BigInt;
 }>;
 
 export type BorrowUpdate = EngineUpdate<{
@@ -69,7 +67,7 @@ export type BorrowUpdate = EngineUpdate<{
   stableRateModeEnabled: boolean;
   borrowableInIsolation: boolean;
   withSiloedBorrowing: boolean;
-  reserveFactor: BigNumber;
+  reserveFactor: BigInt;
 }>;
 
 export type RateStrategyUpdate = {
@@ -106,20 +104,23 @@ export interface NetworkUpdate {
 
 export type AllUpdates = Partial<Record<Networks, NetworkUpdate>>;
 
-export function valueOrKeepCurrent<T extends {toString(): string}>(value: EngineValue<T>): string {
-  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : value.toString();
+function keepCurrentOrElse<T>(value: EngineValue<T>, else_op: (val: T) => string): string {
+  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : else_op(value)
 }
 
-export function bpsToRayOrKeepCurrent<T extends BigNumber>(value: EngineValue<T>): string {
-  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : `_bpsToRay(${value.toString()})`;
+export function valueOrKeepCurrent<T extends {toString(): string}>(value: EngineValue<T>): string {
+  return keepCurrentOrElse(value, (val) => val.toString());
+}
+
+export function bpsToRayOrKeepCurrent<T extends BigInt>(value: EngineValue<T>): string {
+  return keepCurrentOrElse(value, (val) => `_bpsToRay(${val.toString()})`);
 }
 
 export function boolOrKeepCurrent(value: EngineValue<boolean>): string {
-  return value === KEEP_CURRENT
-    ? 'EngineFlags.KEEP_CURRENT'
-    : value
+  return keepCurrentOrElse(value, (val) => val
     ? 'EngineFlags.ENABLED'
-    : 'EngineFlags.DISABLED';
+    : 'EngineFlags.DISABLED'
+  );
 }
 
 interface Files {

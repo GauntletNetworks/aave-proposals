@@ -25,7 +25,6 @@
   "devDependencies": {
     "@bgd-labs/aave-tenderly-cli": "^0.0.13",
     "@bgd-labs/report-engine": "^0.0.8",
-    "@ethersproject/bignumber": "^5.7.0",
     "@types/bs58": "^4.0.1",
     "@types/node": "^18.15.13",
     "@types/node-fetch": "^2.6.3",
@@ -33,7 +32,6 @@
     "bs58": "^4.0.1",
     "dotenv": "^16.0.3",
     "env-cmd": "^10.1.0",
-    "ethers": "^6.3.0",
     "execa": "^7.1.1",
     "front-matter": "^4.0.2",
     "node-fetch": "2",
