@@ -1,4 +1,3 @@
-import {BigNumber} from '@ethersproject/bignumber';
 import {
   AllUpdates,
   EngineValue,
@@ -23,12 +22,12 @@ type ReserveConfigChanges = Partial<{
   aToken: string;
   stableDebtToken: string;
   variableDebtToken: string;
-  decimals: BigNumber;
-  ltv: BigNumber;
-  liquidationThreshold: BigNumber;
-  liquidationBonus: BigNumber;
-  liquidationProtocolFee: BigNumber;
-  reserveFactor: BigNumber;
+  decimals: BigInt;
+  ltv: BigInt;
+  liquidationThreshold: BigInt;
+  liquidationBonus: BigInt;
+  liquidationProtocolFee: BigInt;
+  reserveFactor: BigInt;
   usageAsCollateralEnabled: boolean;
   borrowingEnabled: boolean;
   interestRateStrategy: string;
@@ -38,10 +37,10 @@ type ReserveConfigChanges = Partial<{
   isSiloed: boolean;
   isBorrowableInIsolation: boolean;
   isFlashloanable: boolean;
-  supplyCap: BigNumber;
-  borrowCap: BigNumber;
-  debtCeiling: BigNumber;
-  eModeCategory: BigNumber;
+  supplyCap: BigInt;
+  borrowCap: BigInt;
+  debtCeiling: BigInt;
+  eModeCategory: BigInt;
 }>;
 
 function valueOrUndefined<T>(value: EngineValue<T>): T | undefined {
