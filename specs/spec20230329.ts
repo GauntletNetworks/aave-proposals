@@ -5,7 +5,7 @@ const arbUpdate = {
   capsUpdates: [
     {
       asset: 'WETH_UNDERLYING',
-      supplyCap: BigInt(45001),
+      supplyCap: 45001n,
       borrowCap: KEEP_CURRENT,
     },
   ],
@@ -16,12 +16,12 @@ const ethUpdate = {
   capsUpdates: [
     {
       asset: 'rETH_UNDERLYING',
-      supplyCap: BigInt(20001),
+      supplyCap: 20001n,
       borrowCap: KEEP_CURRENT,
     },
     {
       asset: 'CRV_UNDERLYING',
-      supplyCap: BigInt(51000001),
+      supplyCap: 51000001n,
       borrowCap: KEEP_CURRENT,
     },
   ],
@@ -32,7 +32,7 @@ const polygonUpdate = {
   collateralUpdates: [
     {
       asset: 'USDC_UNDERLYING',
-      ltv: BigInt(8000),
+      ltv: 8000n,
       liqBonus: KEEP_CURRENT,
       liqThreshold: KEEP_CURRENT,
       debtCeiling: KEEP_CURRENT,
@@ -44,13 +44,13 @@ const polygonUpdate = {
     {
       asset: 'miMATIC_UNDERLYING',
       params: {
-        optimalUsageRatio: BigInt(80_00),
-        baseVariableBorrowRate: BigInt(1_00),
-        variableRateSlope1: BigInt(3_80),
-        variableRateSlope2: BigInt(80_00),
-        stableRateSlope1: BigInt(4_00),
-        stableRateSlope2: BigInt(80_00),
-        baseStableRateOffset: BigInt(3_00),
+        optimalUsageRatio: 80_00n,
+        baseVariableBorrowRate: 1_00n,
+        variableRateSlope1: 3_80n,
+        variableRateSlope2: 80_00n,
+        stableRateSlope1: 4_00n,
+        stableRateSlope2: 80_00n,
+        baseStableRateOffset: 3_00n,
         stableRateExcessOffset: KEEP_CURRENT,
         optimalStableToTotalDebtRatio: KEEP_CURRENT,
       },
