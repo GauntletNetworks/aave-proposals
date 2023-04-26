@@ -64,7 +64,24 @@ contract AaveV3PolygonUpdate20230329Payload is AaveV3PayloadPolygon {
     });
 
     return collateralUpdates;
-  }  function rateStrategiesUpdates() public pure override returns (IEngine.RateStrategyUpdate[] memory) {
+  }
+
+  function eModeCategoryUpdates() public pure override returns (IEngine.EModeUpdate[] memory) {
+    IEngine.EModeUpdate[] memory eModeUpdates = new IEngine.EModeUpdate[](1);
+
+    eModeUpdates[0] = IEngine.EModeUpdate({
+      eModeCategory: 1,
+      ltv: 9740,
+      liqThreshold: EngineFlags.KEEP_CURRENT,
+      liqBonus: EngineFlags.KEEP_CURRENT,
+      priceSource: EngineFlags.KEEP_CURRENT_ADDRESS,
+      label: EngineFlags.KEEP_CURRENT_STRING
+    });
+
+    return eModeUpdates;
+  }
+
+  function rateStrategiesUpdates() public pure override returns (IEngine.RateStrategyUpdate[] memory) {
     IEngine.RateStrategyUpdate[] memory rateStrategyUpdates = new IEngine.RateStrategyUpdate[](1);
 
     Rates.RateStrategyParams memory paramsmiMATIC_UNDERLYING = Rates.RateStrategyParams({

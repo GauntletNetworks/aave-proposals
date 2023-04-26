@@ -45,10 +45,10 @@ export type CapsUpdate = EngineUpdate<{
   borrowCap: BigInt;
 }>;
 
-export type PriceFeedUpdate = EngineUpdate<{
+export type PriceFeedUpdate = {
   asset: string;
   priceFeed: string;
-}>;
+};
 
 export type CollateralUpdate = EngineUpdate<{
   asset: string;
@@ -75,6 +75,16 @@ export type RateStrategyUpdate = {
   params: EngineUpdate<RateStrategyParams>;
 };
 
+export type EModeCategoryUpdate = {
+  eModeCategory: BigInt;
+} & EngineUpdate<{
+  ltv: BigInt;
+  liqThreshold: BigInt;
+  liqBonus: BigInt;
+  priceSource: string;
+  label: string;
+}>;
+
 export type Networks = 'Ethereum' | 'Polygon' | 'Arbitrum' | 'Optimism' | 'Avalanche';
 
 export const govHelperNetworkNames: Record<Networks, string> = {
@@ -100,15 +110,16 @@ export interface NetworkUpdate {
   borrowUpdates?: BorrowUpdate[];
   rateStrategyUpdates?: RateStrategyUpdate[];
   priceFeedUpdates?: PriceFeedUpdate[];
+  eModeUpdates?: EModeCategoryUpdate[];
 }
 
 export type AllUpdates = Partial<Record<Networks, NetworkUpdate>>;
 
 function keepCurrentOrElse<T>(value: EngineValue<T>, else_op: (val: T) => string): string {
-  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : else_op(value)
+  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : else_op(value);
 }
 
-export function valueOrKeepCurrent<T extends {toString(): string}>(value: EngineValue<T>): string {
+export function valueOrKeepCurrent<T extends BigInt>(value: EngineValue<T>): string {
   return keepCurrentOrElse(value, (val) => val.toString());
 }
 
@@ -117,12 +128,16 @@ export function bpsToRayOrKeepCurrent<T extends BigInt>(value: EngineValue<T>): 
 }
 
 export function boolOrKeepCurrent(value: EngineValue<boolean>): string {
-  return keepCurrentOrElse(value, (val) => val
-    ? 'EngineFlags.ENABLED'
-    : 'EngineFlags.DISABLED'
-  );
+  return keepCurrentOrElse(value, (val) => (val ? 'EngineFlags.ENABLED' : 'EngineFlags.DISABLED'));
 }
 
+export function stringOrKeepCurrent(value: EngineValue<string>): string {
+  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT_STRING' : value;
+}
+
+export function addressOrKeepCurrent(value: EngineValue<string>): string {
+  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT_ADDRESS' : value;
+}
 interface Files {
   [name: string]: string;
 }
