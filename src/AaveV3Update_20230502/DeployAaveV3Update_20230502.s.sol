@@ -18,7 +18,7 @@ import {
 
 contract CreateProposal is EthereumScript {
   function run() external broadcast {
-    GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](4);
+    GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](3);
     payloads[0] = GovHelpers.buildArbitrum(address(0));
     payloads[1] = GovHelpers.buildPolygon(address(0));
     payloads[2] = GovHelpers.buildOptimism(address(0));

@@ -1,6 +1,11 @@
 import {AllUpdates, govHelperNetworkNames, Networks} from './index.js';
 
 export function generateDeployFile(updateDate: string, updates: AllUpdates): string {
+  // Avalanche payloads are not yet called from main governance
+  const networksOtherThanGuardian = Object.keys(updates).filter(
+    (network) => network !== 'Avalanche'
+  );
+
   return `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -20,10 +25,10 @@ ${Object.keys(updates)
 
 contract CreateProposal is EthereumScript {
   function run() external broadcast {
-    GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](${Object.keys(updates).length});
-${Object.keys(updates)
-  // Avalanche payloads are not yet called from main governance
-  .filter((network) => network !== 'Avalanche')
+    GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](${
+      networksOtherThanGuardian.length
+    });
+${networksOtherThanGuardian
   .map((network, index) => {
     return `    payloads[${index}] = GovHelpers.build${
       govHelperNetworkNames[network as Networks]

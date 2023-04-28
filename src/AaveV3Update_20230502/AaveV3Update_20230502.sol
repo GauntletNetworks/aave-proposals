@@ -150,7 +150,7 @@ contract AaveV3PolygonUpdate20230502Payload is AaveV3PayloadPolygon {
     collateralUpdates[3] = IEngine.CollateralUpdate({
       asset: AaveV3PolygonAssets.jEUR_UNDERLYING,
       ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
+      liqThreshold: 0,
       liqBonus: EngineFlags.KEEP_CURRENT,
       debtCeiling: EngineFlags.KEEP_CURRENT,
       liqProtocolFee: EngineFlags.KEEP_CURRENT,
@@ -160,7 +160,7 @@ contract AaveV3PolygonUpdate20230502Payload is AaveV3PayloadPolygon {
     collateralUpdates[4] = IEngine.CollateralUpdate({
       asset: AaveV3PolygonAssets.agEUR_UNDERLYING,
       ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
+      liqThreshold: 0,
       liqBonus: EngineFlags.KEEP_CURRENT,
       debtCeiling: EngineFlags.KEEP_CURRENT,
       liqProtocolFee: EngineFlags.KEEP_CURRENT,

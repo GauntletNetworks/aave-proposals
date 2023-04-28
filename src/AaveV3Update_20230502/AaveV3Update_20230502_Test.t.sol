@@ -142,10 +142,12 @@ contract AaveV3PolygonUpdate_20230502_Test is ProtocolV3TestBase, TestWithExecut
       _validateReserveConfig(miMATIC_UNDERLYINGBefore, allConfigsAfter);
     }
     {
+      jEUR_UNDERLYINGBefore.liquidationThreshold = 0;
       jEUR_UNDERLYINGBefore.eModeCategory = 0;
       _validateReserveConfig(jEUR_UNDERLYINGBefore, allConfigsAfter);
     }
     {
+      agEUR_UNDERLYINGBefore.liquidationThreshold = 0;
       agEUR_UNDERLYINGBefore.eModeCategory = 0;
       _validateReserveConfig(agEUR_UNDERLYINGBefore, allConfigsAfter);
     }
