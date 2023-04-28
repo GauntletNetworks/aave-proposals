@@ -22,6 +22,8 @@ contract CreateProposal is EthereumScript {
   function run() external broadcast {
     GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](${Object.keys(updates).length});
 ${Object.keys(updates)
+  // Avalanche payloads are not yet called from main governance
+  .filter((network) => network !== 'Avalanche')
   .map((network, index) => {
     return `    payloads[${index}] = GovHelpers.build${
       govHelperNetworkNames[network as Networks]

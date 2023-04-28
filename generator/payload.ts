@@ -7,12 +7,15 @@ import {
   stringOrKeepCurrent,
   Networks,
   NetworkUpdate,
+  KEEP_CURRENT,
 } from './index.js';
 
 export function generatePayloadFile(updateDate: string, updates: AllUpdates): string {
   const payloadFile = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {DataTypes} from 'aave-address-book/AaveV3.sol';
+import {IPool,IPoolConfigurator} from 'aave-address-book/AaveV3.sol';
 import {IEngine,EngineFlags,Rates} from 'aave-helpers/v3-config-engine/AaveV3PayloadBase.sol';
 ${Object.keys(updates)
   .map((network) => {
@@ -22,6 +25,24 @@ ${Object.keys(updates)
 } from 'aave-helpers/v3-config-engine/AaveV3Payload${network}.sol';`;
   })
   .join('\n')}
+
+
+/// @dev magic value to be used as flag to keep unchanged any current configuration
+/// Strongly assumes that the value AaveV3ConfigEngine.EngineFlags.KEEP_CURRENT_STRING will never be used, which seems reasonable
+string constant KEEP_CURRENT_STRING = 'AaveV3ConfigEngine.EngineFlags.KEEP_CURRENT_STRING';
+
+/// @dev magic value to be used as flag to keep unchanged any current configuration
+/// Strongly assumes that the value 0x00000000000000000000000000000000000042 will never be used, which seems reasonable
+address constant KEEP_CURRENT_ADDRESS = address(0x00000000000000000000000000000000000042);
+
+struct EModeUpdate {
+  uint8 eModeCategory;
+  uint256 ltv;
+  uint256 liqThreshold;
+  uint256 liqBonus;
+  address priceSource;
+  string label;
+}
 
 ${Object.keys(updates)
   .map((network) => {
@@ -119,25 +140,56 @@ ${update.priceFeedUpdates
   }`,
   `${
     update.eModeUpdates && update.eModeUpdates.length > 0
-      ? `  function eModeCategoryUpdates() public pure override returns (IEngine.EModeUpdate[] memory) {
-    IEngine.EModeUpdate[] memory eModeUpdates = new IEngine.EModeUpdate[](${
-      update.eModeUpdates.length
-    });
+      ? `  function _postExecute() internal override {
+    EModeUpdate[] memory eModeUpdates = new EModeUpdate[](${update.eModeUpdates.length});
 ${update.eModeUpdates
   .map(
     (update, index) => `
-    eModeUpdates[${index}] = IEngine.EModeUpdate({
+    eModeUpdates[${index}] = EModeUpdate({
       eModeCategory: ${update.eModeCategory},
       ltv: ${valueOrKeepCurrent(update.ltv)},
       liqThreshold: ${valueOrKeepCurrent(update.liqThreshold)},
       liqBonus: ${valueOrKeepCurrent(update.liqBonus)},
-      priceSource: ${addressOrKeepCurrent(update.priceSource)},
-      label: ${stringOrKeepCurrent(update.label)}
+      priceSource: ${
+        update.priceSource === KEEP_CURRENT ? 'KEEP_CURRENT_ADDRESS' : update.priceSource
+      },
+      label: ${update.label === KEEP_CURRENT ? 'KEEP_CURRENT_STRING' : update.label}
     });`
   )
   .join('\n')}
 
-    return eModeUpdates;
+    for (uint256 i = 0; i < eModeUpdates.length; i++) {
+      DataTypes.EModeCategory memory configuration = LISTING_ENGINE.POOL().getEModeCategoryData(eModeUpdates[i].eModeCategory);
+
+      if (eModeUpdates[i].ltv == EngineFlags.KEEP_CURRENT) {
+        eModeUpdates[i].ltv = configuration.ltv;
+      }
+
+      if (eModeUpdates[i].liqThreshold == EngineFlags.KEEP_CURRENT) {
+        eModeUpdates[i].liqThreshold = configuration.liquidationThreshold;
+      }
+
+      if (eModeUpdates[i].liqBonus == EngineFlags.KEEP_CURRENT) {
+        eModeUpdates[i].liqBonus = configuration.liquidationBonus;
+      }
+
+      if (eModeUpdates[i].priceSource == KEEP_CURRENT_ADDRESS) {
+        eModeUpdates[i].priceSource = configuration.priceSource;
+      }
+
+      if (keccak256(abi.encode(eModeUpdates[i].label)) == keccak256(abi.encode(KEEP_CURRENT_STRING))) {
+        eModeUpdates[i].label = configuration.label;
+      }
+
+      LISTING_ENGINE.POOL_CONFIGURATOR().setEModeCategory(
+        eModeUpdates[i].eModeCategory,
+        uint16(eModeUpdates[i].ltv),
+        uint16(eModeUpdates[i].liqThreshold),
+        uint16(eModeUpdates[i].liqBonus),
+        eModeUpdates[i].priceSource,
+        eModeUpdates[i].label
+      );
+    }
   }`
       : ''
   }`,
