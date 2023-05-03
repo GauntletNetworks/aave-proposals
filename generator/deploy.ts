@@ -6,7 +6,9 @@ pragma solidity ^0.8.0;
 
 import {GovHelpers} from 'aave-helpers/GovHelpers.sol';
 import {
+  EthereumScript,
 ${Object.keys(updates)
+  .filter((network) => network !== 'Ethereum')
   .map((network) => `  ${network}Script`)
   .join(',\n')}
 } from 'aave-helpers/ScriptUtils.sol';
