@@ -18,7 +18,7 @@ In accordance to our Borrow and Supply Cap methodology, Gauntlet would like to r
 #### Arbitrum v3
 |      | Current Supply Cap | Recommended Supply Cap | Current Borrow Cap | Recommended Borrow Cap |
 | ---- | ------------------ | ---------------------- | ------------------ | ---------------------- |
-| EURS | 60,000              | 65,000                  | 40,000              | 65,000                  |
+| EURS | 60,000              | 65,000                  | 45,000              | 65,000                  |
 
 Our conservative methodology thresholds the caps for EURS to be 40% of the circulating supply for EURS on Arbitrum. The community can decide whether to adopt the aggressive methodology for EURS supply cap and threshold at 60% of the circulating supply, upon which the supply and the borrow caps will be raised to 100k.
 
