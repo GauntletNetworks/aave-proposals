@@ -10,12 +10,12 @@ import {AaveV2Avalanche,AaveV2AvalancheAssets} from 'aave-address-book/AaveV2Ava
 import {AaveV2Ethereum,AaveV2EthereumAssets} from 'aave-address-book/AaveV2Ethereum.sol';
 import {AaveV2Polygon,AaveV2PolygonAssets} from 'aave-address-book/AaveV2Polygon.sol';
 import {
-  AaveV3EthereumUpdate20230507Payload,
-  AaveV3PolygonUpdate20230507Payload,
-  AaveV3AvalancheUpdate20230507Payload
-} from './AaveV3Update_20230507.sol';
+  AaveV2EthereumUpdate20230507Payload,
+  AaveV2PolygonUpdate20230507Payload,
+  AaveV2AvalancheUpdate20230507Payload
+} from './AaveV2Update_20230507.sol';
 
-contract AaveV3EthereumUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
+contract AaveV2EthereumUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('mainnet'), 17219285);
 
@@ -28,7 +28,7 @@ contract AaveV3EthereumUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecu
       AaveV2Ethereum.POOL
     );
 
-    _executePayload(address(new AaveV3EthereumUpdate20230507Payload()));
+    _executePayload(address(new AaveV2EthereumUpdate20230507Payload()));
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestEthereumUpdate20230507',
@@ -48,7 +48,7 @@ contract AaveV3EthereumUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecu
   }
 }
 
-contract AaveV3PolygonUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
+contract AaveV2PolygonUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('polygon'), 42473242);
 
@@ -61,7 +61,7 @@ contract AaveV3PolygonUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecut
       AaveV2Polygon.POOL
     );
 
-    _executePayload(address(new AaveV3PolygonUpdate20230507Payload()));
+    _executePayload(address(new AaveV2PolygonUpdate20230507Payload()));
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestPolygonUpdate20230507',
@@ -80,7 +80,7 @@ contract AaveV3PolygonUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecut
   }
 }
 
-contract AaveV3AvalancheUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
+contract AaveV2AvalancheUpdate_20230507_Test is ProtocolV2TestBase, TestWithExecutor {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('avalanche'), 29774515);
 
@@ -93,7 +93,7 @@ contract AaveV3AvalancheUpdate_20230507_Test is ProtocolV2TestBase, TestWithExec
       AaveV2Avalanche.POOL
     );
 
-    _executePayload(address(new AaveV3AvalancheUpdate20230507Payload()));
+    _executePayload(address(new AaveV2AvalancheUpdate20230507Payload()));
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestAvalancheUpdate20230507',

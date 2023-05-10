@@ -29,7 +29,7 @@ abstract contract AaveV2RateUpdatePayloadBase is IProposalGenericExecutor {
   }
 }
 
-contract AaveV3EthereumUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
+contract AaveV2EthereumUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
   function _poolConfigurator() internal override pure returns (ILendingPoolConfigurator) {
     return AaveV2Ethereum.POOL_CONFIGURATOR;
   }
@@ -62,7 +62,7 @@ contract AaveV3EthereumUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
   }
 }
 
-contract AaveV3AvalancheUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
+contract AaveV2AvalancheUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
   function _poolConfigurator() internal override pure returns (ILendingPoolConfigurator) {
     return AaveV2Avalanche.POOL_CONFIGURATOR;
   }
@@ -87,7 +87,7 @@ contract AaveV3AvalancheUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
   }
 }
 
-contract AaveV3PolygonUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
+contract AaveV2PolygonUpdate20230507Payload is AaveV2RateUpdatePayloadBase {
   function _poolConfigurator() internal override pure returns (ILendingPoolConfigurator) {
     return AaveV2Polygon.POOL_CONFIGURATOR;
   }
