@@ -61,10 +61,10 @@ Aave V2 Polygon
 ## Implementation
 
 This proposal implements the above changes on Aave V2 Ethereum and Polygon via the following pre-deployed payloads:
-  - Ethereum: [`0xe1dd796dbeb5a67ce37cbc52dcd164d0535c901e`](https://etherscan.io/address/0xe1dd796dbeb5a67ce37cbc52dcd164d0535c901e)
-  - Polygon: [`0xac63290bc16fbc33353b14f139cef1c660ba56f0`](https://polygonscan.com/address/0xac63290bc16fbc33353b14f139cef1c660ba56f0)
+  - Ethereum: [`0x24bdacf6bbebaf567123da16cdb79a266597e92b`](https://etherscan.io/address/0x24bdacf6bbebaf567123da16cdb79a266597e92b)
+  - Polygon: [`0xf22c8255ea615b3da6ca5cf5aecc8956bff07aa8`](https://polygonscan.com/address/0xf22c8255ea615b3da6ca5cf5aecc8956bff07aa8)
 
-Aave V2 Avalanche changes will be implemented using a separate steward, deployed here:  [`0x1cdb984008dcee9d06c28654ed31cf82680eea62`](https://snowtrace.io/address/0x1cdb984008dcee9d06c28654ed31cf82680eea62)
+Aave V2 Avalanche changes will be implemented using a separate steward, deployed here:  [`0xe1dd796dbeb5a67ce37cbc52dcd164d0535c901e`](https://snowtrace.io/address/0xe1dd796dbeb5a67ce37cbc52dcd164d0535c901e)
 
 ## Copyright
 
