@@ -26,6 +26,14 @@
 
 ```json
 {
+  "eModes": {
+    "1": {
+      "ltv": {
+        "from": 9700,
+        "to": 9740
+      }
+    }
+  },
   "reserves": {
     "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {
       "ltv": {
