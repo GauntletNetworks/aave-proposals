@@ -6,16 +6,16 @@ export function generateDeployFile(updateDate: string, updates: AllUpdates): str
     (network) => network !== 'Avalanche'
   );
 
+  const hasEthereum = Object.keys(updates).includes('Ethereum');
+
   return `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import {GovHelpers} from 'aave-helpers/GovHelpers.sol';
 import {
-  EthereumScript,
-${Object.keys(updates)
-  .filter((network) => network !== 'Ethereum')
-  .map((network) => `  ${network}Script`)
-  .join(',\n')}
+${!hasEthereum ? `  EthereumScript,\n` : ''}${Object.keys(updates)
+    .map((network) => `  ${network}Script`)
+    .join(',\n')}
 } from 'aave-helpers/ScriptUtils.sol';
 import {
 ${Object.keys(updates)
