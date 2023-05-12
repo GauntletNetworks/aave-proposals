@@ -72,7 +72,7 @@ export type BorrowUpdate = EngineUpdate<{
 
 export type RateStrategyUpdate = {
   asset: string;
-  params: EngineUpdate<RateStrategyParams>;
+  params: RateStrategyParams;
 };
 
 export type Networks = 'Ethereum' | 'Polygon' | 'Arbitrum' | 'Optimism' | 'Avalanche';
@@ -105,7 +105,7 @@ export interface NetworkUpdate {
 export type AllUpdates = Partial<Record<Networks, NetworkUpdate>>;
 
 function keepCurrentOrElse<T>(value: EngineValue<T>, else_op: (val: T) => string): string {
-  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : else_op(value)
+  return value === KEEP_CURRENT ? 'EngineFlags.KEEP_CURRENT' : else_op(value);
 }
 
 export function valueOrKeepCurrent<T extends {toString(): string}>(value: EngineValue<T>): string {
@@ -117,10 +117,7 @@ export function bpsToRayOrKeepCurrent<T extends BigInt>(value: EngineValue<T>): 
 }
 
 export function boolOrKeepCurrent(value: EngineValue<boolean>): string {
-  return keepCurrentOrElse(value, (val) => val
-    ? 'EngineFlags.ENABLED'
-    : 'EngineFlags.DISABLED'
-  );
+  return keepCurrentOrElse(value, (val) => (val ? 'EngineFlags.ENABLED' : 'EngineFlags.DISABLED'));
 }
 
 interface Files {
