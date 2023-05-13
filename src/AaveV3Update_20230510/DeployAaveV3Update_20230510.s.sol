@@ -20,11 +20,11 @@ import {
 contract CreateProposal is EthereumScript {
   function run() external broadcast {
     GovHelpers.Payload[] memory payloads = new GovHelpers.Payload[](4);
-    payloads[0] = GovHelpers.buildArbitrum(address(0));
-    payloads[1] = GovHelpers.buildMainnet(address(0));
-    payloads[2] = GovHelpers.buildPolygon(address(0));
-    payloads[3] = GovHelpers.buildOptimism(address(0));
-    GovHelpers.createProposal(payloads, '');
+    payloads[0] = GovHelpers.buildArbitrum(0xF4d1352b3E9E99FCa6Aa20F62Fe95192A26C9527);
+    payloads[1] = GovHelpers.buildMainnet(0xfC7b55cc7C5BD3aE89aC679c7250AB30754C5cC5);
+    payloads[2] = GovHelpers.buildPolygon(0x1Cdb984008dcEe9d06c28654ed31cf82680EeA62);
+    payloads[3] = GovHelpers.buildOptimism(0xaC63290BC16fBc33353b14f139cEf1c660ba56F0);
+    GovHelpers.createProposal(payloads, 0x24115f1b5d65989a73f8df782561e2cb5bb1e9f64c6211c325c9c2700a5a89de);
   }
 }
 
