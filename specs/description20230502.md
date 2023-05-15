@@ -71,6 +71,7 @@ The proposal implements changes on Aave V3 Optimism, Polygon, and Arbitrum using
   - Arbitrum: [`0x33DeAc0861FD6a9235b86172AA939E79085c6f52`](https://arbiscan.io/address/0x33DeAc0861FD6a9235b86172AA939E79085c6f52)
   - Polygon: [`0x32f3A6134590fc2d9440663d35a2F0a6265F04c4`](https://polygonscan.com/address/0x32f3A6134590fc2d9440663d35a2F0a6265F04c4)
 
+Changes on Avalanche can be implemented using the pre-deployed steward located at [`0x0568a3aeb8e78262deff75ee68fac20ae35ffa91`](https://snowtrace.io/address/0x0568a3aeb8e78262deff75ee68fac20ae35ffa91)
 
 ## Copyright
 
