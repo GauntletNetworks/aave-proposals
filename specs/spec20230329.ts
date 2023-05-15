@@ -40,6 +40,16 @@ const polygonUpdate = {
       eModeCategory: KEEP_CURRENT,
     },
   ],
+  eModeUpdates: [
+    {
+      eModeCategory: 1n,
+      ltv: 9740n,
+      liqThreshold: KEEP_CURRENT,
+      liqBonus: KEEP_CURRENT,
+      priceSource: KEEP_CURRENT,
+      label: KEEP_CURRENT,
+    },
+  ],
   rateStrategyUpdates: [
     {
       asset: 'miMATIC_UNDERLYING',
