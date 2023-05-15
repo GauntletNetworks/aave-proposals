@@ -24,7 +24,7 @@ contract CreateProposal is EthereumScript {
     payloads[1] = GovHelpers.buildMainnet(0xfC7b55cc7C5BD3aE89aC679c7250AB30754C5cC5);
     payloads[2] = GovHelpers.buildPolygon(0x1Cdb984008dcEe9d06c28654ed31cf82680EeA62);
     payloads[3] = GovHelpers.buildOptimism(0xaC63290BC16fBc33353b14f139cEf1c660ba56F0);
-    GovHelpers.createProposal(payloads, 0x24115f1b5d65989a73f8df782561e2cb5bb1e9f64c6211c325c9c2700a5a89de);
+    GovHelpers.createProposal(payloads, 0x16eb4b2816ebae6591136eb3c36e58bd1c92a2d1603c04ecce25a7ac07732573);
   }
 }
 

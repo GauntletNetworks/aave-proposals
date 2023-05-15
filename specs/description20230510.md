@@ -90,6 +90,8 @@ The proposal implements changes on Aave V3 Ethereum, Polygon, Arbitrum, and Opti
   - Optimism: [`0xac63290bc16fbc33353b14f139cef1c660ba56f0`](https://optimistic.etherscan.io/address/0xac63290bc16fbc33353b14f139cef1c660ba56f0
   - Polygon: [`0x1cdb984008dcee9d06c28654ed31cf82680eea62`](https://polygonscan.com/address/0x1cdb984008dcee9d06c28654ed31cf82680eea62)
 
+Changes on Avalanche can be implemented using the pre-deployed steward located at [`0x24bdacf6bbebaf567123da16cdb79a266597e92b`](https://snowtrace.io/address/0x24bdacf6bbebaf567123da16cdb79a266597e92b)
+
 ## Copyright
 
 Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
