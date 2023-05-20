@@ -40,32 +40,6 @@ struct EModeUpdate {
 }
 
 contract AaveV3ArbitrumUpdate20230502Payload is AaveV3PayloadArbitrum {
-  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
-    IEngine.CollateralUpdate[] memory collateralUpdates = new IEngine.CollateralUpdate[](2);
-
-    collateralUpdates[0] = IEngine.CollateralUpdate({
-      asset: AaveV3ArbitrumAssets.USDT_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[1] = IEngine.CollateralUpdate({
-      asset: AaveV3ArbitrumAssets.EURS_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    return collateralUpdates;
-  }
-
   function _postExecute() internal override {
     EModeUpdate[] memory eModeUpdates = new EModeUpdate[](1);
 
@@ -114,62 +88,6 @@ contract AaveV3ArbitrumUpdate20230502Payload is AaveV3PayloadArbitrum {
 }
 
 contract AaveV3PolygonUpdate20230502Payload is AaveV3PayloadPolygon {
-  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
-    IEngine.CollateralUpdate[] memory collateralUpdates = new IEngine.CollateralUpdate[](5);
-
-    collateralUpdates[0] = IEngine.CollateralUpdate({
-      asset: AaveV3PolygonAssets.USDT_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[1] = IEngine.CollateralUpdate({
-      asset: AaveV3PolygonAssets.EURS_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[2] = IEngine.CollateralUpdate({
-      asset: AaveV3PolygonAssets.miMATIC_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[3] = IEngine.CollateralUpdate({
-      asset: AaveV3PolygonAssets.jEUR_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: 0,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[4] = IEngine.CollateralUpdate({
-      asset: AaveV3PolygonAssets.agEUR_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: 0,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    return collateralUpdates;
-  }
-
   function _postExecute() internal override {
     EModeUpdate[] memory eModeUpdates = new EModeUpdate[](1);
 
@@ -218,32 +136,6 @@ contract AaveV3PolygonUpdate20230502Payload is AaveV3PayloadPolygon {
 }
 
 contract AaveV3AvalancheUpdate20230502Payload is AaveV3PayloadAvalanche {
-  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
-    IEngine.CollateralUpdate[] memory collateralUpdates = new IEngine.CollateralUpdate[](2);
-
-    collateralUpdates[0] = IEngine.CollateralUpdate({
-      asset: AaveV3AvalancheAssets.USDt_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[1] = IEngine.CollateralUpdate({
-      asset: AaveV3AvalancheAssets.MAI_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    return collateralUpdates;
-  }
-
   function _postExecute() internal override {
     EModeUpdate[] memory eModeUpdates = new EModeUpdate[](1);
 
@@ -292,32 +184,6 @@ contract AaveV3AvalancheUpdate20230502Payload is AaveV3PayloadAvalanche {
 }
 
 contract AaveV3OptimismUpdate20230502Payload is AaveV3PayloadOptimism {
-  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
-    IEngine.CollateralUpdate[] memory collateralUpdates = new IEngine.CollateralUpdate[](2);
-
-    collateralUpdates[0] = IEngine.CollateralUpdate({
-      asset: AaveV3OptimismAssets.USDT_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    collateralUpdates[1] = IEngine.CollateralUpdate({
-      asset: AaveV3OptimismAssets.sUSD_UNDERLYING,
-      ltv: EngineFlags.KEEP_CURRENT,
-      liqThreshold: EngineFlags.KEEP_CURRENT,
-      liqBonus: EngineFlags.KEEP_CURRENT,
-      debtCeiling: EngineFlags.KEEP_CURRENT,
-      liqProtocolFee: EngineFlags.KEEP_CURRENT,
-      eModeCategory: 0
-    });
-
-    return collateralUpdates;
-  }
-
   function _postExecute() internal override {
     EModeUpdate[] memory eModeUpdates = new EModeUpdate[](1);
 

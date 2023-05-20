@@ -1,10 +1,4 @@
-import {
-  AllUpdates,
-  CollateralUpdate,
-  EModeCategoryUpdate,
-  KEEP_CURRENT,
-  NetworkUpdate,
-} from '../generator/index.js';
+import {AllUpdates, EModeCategoryUpdate, KEEP_CURRENT, NetworkUpdate} from '../generator/index.js';
 
 const stablecoinEModeUpdate: EModeCategoryUpdate = {
   eModeCategory: 1n,
@@ -15,63 +9,26 @@ const stablecoinEModeUpdate: EModeCategoryUpdate = {
   label: KEEP_CURRENT,
 };
 
-function removeEModeFor(asset: string): CollateralUpdate {
-  return {
-    asset,
-    ltv: KEEP_CURRENT,
-    liqBonus: KEEP_CURRENT,
-    liqThreshold: KEEP_CURRENT,
-    debtCeiling: KEEP_CURRENT,
-    liqProtocolFee: KEEP_CURRENT,
-    eModeCategory: 0n,
-  };
-}
+const eModeUpdates = [stablecoinEModeUpdate];
 
 const avalancheUpdate = {
-  forkBlockNumber: 29308324,
-  collateralUpdates: [removeEModeFor('USDt_UNDERLYING'), removeEModeFor('MAI_UNDERLYING')],
-  eModeUpdates: [stablecoinEModeUpdate],
+  forkBlockNumber: 30240937,
+  eModeUpdates,
 } satisfies NetworkUpdate;
 
 const optimismUpdate = {
-  forkBlockNumber: 94864809,
-  collateralUpdates: [removeEModeFor('USDT_UNDERLYING'), removeEModeFor('sUSD_UNDERLYING')],
-  eModeUpdates: [stablecoinEModeUpdate],
+  forkBlockNumber: 99835340,
+  eModeUpdates,
 } satisfies NetworkUpdate;
 
 const polygonUpdate = {
-  forkBlockNumber: 42037324,
-
-  collateralUpdates: [
-    removeEModeFor('USDT_UNDERLYING'),
-    removeEModeFor('EURS_UNDERLYING'),
-    removeEModeFor('miMATIC_UNDERLYING'),
-    {
-      asset: 'jEUR_UNDERLYING',
-      ltv: KEEP_CURRENT,
-      liqBonus: KEEP_CURRENT,
-      liqThreshold: 0n,
-      debtCeiling: KEEP_CURRENT,
-      liqProtocolFee: KEEP_CURRENT,
-      eModeCategory: 0n,
-    },
-    {
-      asset: 'agEUR_UNDERLYING',
-      ltv: KEEP_CURRENT,
-      liqBonus: KEEP_CURRENT,
-      liqThreshold: 0n,
-      debtCeiling: KEEP_CURRENT,
-      liqProtocolFee: KEEP_CURRENT,
-      eModeCategory: 0n,
-    },
-  ],
-  eModeUpdates: [stablecoinEModeUpdate],
+  forkBlockNumber: 42914128,
+  eModeUpdates,
 } satisfies NetworkUpdate;
 
 const arbUpdate = {
-  forkBlockNumber: 84991019,
-  collateralUpdates: [removeEModeFor('USDT_UNDERLYING'), removeEModeFor('EURS_UNDERLYING')],
-  eModeUpdates: [stablecoinEModeUpdate],
+  forkBlockNumber: 92432492,
+  eModeUpdates,
 } satisfies NetworkUpdate;
 
 const updates = {
