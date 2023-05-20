@@ -6,11 +6,7 @@ discussions: https://governance.aave.com/t/gauntlet-aave-v3-e-mode-methodology/1
 
 ## Summary
 
-To optimize risk/reward tradeoffs, below are several options for the community regarding stablecoin E-Mode:
-- Option 1: (Include all current assets) - 87% LT, 82% LTV, 2% LB.
-- Option 2: DAI, USDC, FRAX (if already listed) at 97.5% LT, 97% LTV, 1% LB
-- Option 3: DAI, USDC, FRAX (if already listed) at 95% LT, 93% LTV, 1% LB
-- Option 4: Completely remove stablecoin E-mode from Aave V3
+To optimize risk/reward tradeoffs, change Stablecoin E-mode parameters to 97.5% LT, 97% LTV, 1% LB.
 
 Please see Gauntlet's E-Mode methodology [here](https://governance.aave.com/t/gauntlet-aave-v3-e-mode-methodology/12278) for the full forum discussion.
 
@@ -22,56 +18,35 @@ On Aave V3, E-mode requires multiple considerations, including mitigating tail r
 
 ## Specification
 
-The community has decided on [Option 3](https://snapshot.org/#/aave.eth/proposal/0x84deca82139320b2570f04211b249e37b8a7602b4a0ed70e6fa772c9f6e94550):
-* DAI, USDC, FRAX (if already listed) at 95% LT, 93% LTV, 1% LB
-
 These changes apply to V3 Avalanche, Optimism, Polygon, and Arbitrum.
 
-In particular, it removes all assets other than DAI, USDC, and FRAX from these stablecoin E-modes. The complete list of updates are:
+The complete list of updates are:
 - Avalanche:
-    1. Remove USDT from the Stablecoin E-Mode category.
-    2. Remove MAI from the Stablecoin E-Mode category.
-    3. Lower Stablecoin E-Mode LT from 97.5% to 95%.
+    1. Lower Stablecoin E-Mode LT from 97.5% to 95%.
     4. Lower Stablecoin E-Mode LTV from 97% to 93%.
 - Optimism:
-    1. Remove USDT from the Stablecoin E-Mode category.
-    2. Remove SUSD from the Stablecoin E-Mode category.
-    3. Lower Stablecoin E-Mode LT from 97.5% to 95%.
+    1. Lower Stablecoin E-Mode LT from 97.5% to 95%.
     4. Lower Stablecoin E-Mode LTV from 97% to 93%.
 - Polygon:
-    1. Remove USDT from the Stablecoin E-Mode category.
-    2. Remove EURS from the Stablecoin E-Mode category.
-    3. Remove jEUR from the Stablecoin E-Mode category.
-    4. Remove agEUR from the Stablecoin E-Mode category.
-    5. Remove miMATIC from the Stablecoin E-Mode category.
-    6. Lower Stablecoin E-Mode LT from 97.5% to 95%.
+    1. Lower Stablecoin E-Mode LT from 97.5% to 95%.
     7. Lower Stablecoin E-Mode LTV from 97% to 93%.
 - Arbitrum:
-    1. Remove USDT from the Stablecoin E-Mode category.
-    2. Remove EURS from the Stablecoin E-Mode category.
-    3. Lower Stablecoin E-Mode LT from 97.5% to 95%.
+    1. Lower Stablecoin E-Mode LT from 97.5% to 95%.
     4. Lower Stablecoin E-Mode LTV from 97% to 93%.
 
 Note that the Stablecoin E-Mode LB is already 1% across all four aforementioned chains, and that Stablecoin E-Mode has category ID = 1 across all four aforementioned chains.
-
-[An analysis on 04/17/2023](https://docs.google.com/spreadsheets/d/1KMNr9vY6DeL7HmmNpmGPU04RPgxkpy3COI19uZXpVTw/edit?usp=sharing) yields the following liquidation impact:
-| Chain | Total Collateral Liquidatable | Total Lost to Liquidation Bonus | Total Wallets Liquidatable |
-| ----- | ----------------------------- | --------------------------------- | -------------------------- |
-| Avalanche | $3,560,179.71 | $66,105.87 | 40 |
-| Optimism | $417,557.27 | $7,957.97 | 35 |
-| Polygon | $111,505.32 | $2,935.65 | 55 |
-| Arbitrum | $22,369.61 | $593.74 | 31 |
 
 We recommend that users adjust their positions accordingly.
 
 ## Implementation
 
 The proposal implements changes on Aave V3 Optimism, Polygon, and Arbitrum using the following pre-deployed payloads:
-  - Optimism: [`0x78Fe5d0427E669ba9F964C3495fF381a805a0487`](https://optimistic.etherscan.io/address/0x78Fe5d0427E669ba9F964C3495fF381a805a0487)
-  - Arbitrum: [`0x33DeAc0861FD6a9235b86172AA939E79085c6f52`](https://arbiscan.io/address/0x33DeAc0861FD6a9235b86172AA939E79085c6f52)
-  - Polygon: [`0x32f3A6134590fc2d9440663d35a2F0a6265F04c4`](https://polygonscan.com/address/0x32f3A6134590fc2d9440663d35a2F0a6265F04c4)
+  - Optimism: [`0xf22c8255ea615b3da6ca5cf5aecc8956bff07aa8`](https://optimistic.etherscan.io/address/0xf22c8255ea615b3da6ca5cf5aecc8956bff07aa8)
+  - Arbitrum: [`0x142dcaec322aaa25141b2597bf348487adbd596d`](https://arbiscan.io/address/0x142dcaec322aaa25141b2597bf348487adbd596d)
+  - Polygon: [`0x24bdacf6bbebaf567123da16cdb79a266597e92b`](https://polygonscan.com/address/0x24bdacf6bbebaf567123da16cdb79a266597e92b)
 
-Changes on Avalanche can be implemented using the pre-deployed steward located at [`0x0568a3aeb8e78262deff75ee68fac20ae35ffa91`](https://snowtrace.io/address/0x0568a3aeb8e78262deff75ee68fac20ae35ffa91)
+Changes on Avalanche can be implemented using the pre-deployed steward located at [`0xfc7b55cc7c5bd3ae89ac679c7250ab30754c5cc5`](https://snowtrace.io/address/0xfc7b55cc7c5bd3ae89ac679c7250ab30754c5cc5)
+
 
 ## Copyright
 
