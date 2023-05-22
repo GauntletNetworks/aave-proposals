@@ -6,7 +6,7 @@ discussions: https://governance.aave.com/t/gauntlet-aave-v3-e-mode-methodology/1
 
 ## Summary
 
-To optimize risk/reward tradeoffs, change Stablecoin E-mode parameters to 97.5% LT, 97% LTV, 1% LB.
+To optimize risk/reward tradeoffs, change Stablecoin E-mode parameters to 95% LT, 93% LTV, 1% LB.
 
 Please see Gauntlet's E-Mode methodology [here](https://governance.aave.com/t/gauntlet-aave-v3-e-mode-methodology/12278) for the full forum discussion.
 
