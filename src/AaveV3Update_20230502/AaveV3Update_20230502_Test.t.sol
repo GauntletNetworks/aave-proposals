@@ -3,6 +3,7 @@
 pragma solidity ^0.8.0;
 
 import 'forge-std/Test.sol';
+import 'forge-std/interfaces/IERC20.sol';
 import {TestWithExecutor} from 'aave-helpers/GovHelpers.sol';
 import {AaveGovernanceV2} from 'aave-address-book/AaveGovernanceV2.sol';
 import {ProtocolV3TestBase, ReserveConfig} from 'aave-helpers/ProtocolV3TestBase.sol';
@@ -31,7 +32,7 @@ import {
 
 contract AaveV3ArbitrumUpdate_20230502_Test is ProtocolV3TestBase, TestWithExecutor {
   function setUp() public {
-    vm.createSelectFork(vm.rpcUrl('arbitrum'), 92432492);
+    vm.createSelectFork(vm.rpcUrl('arbitrum'), 94452670);
 
     _selectPayloadExecutor(AaveGovernanceV2.ARBITRUM_BRIDGE_EXECUTOR);
   }
@@ -58,7 +59,57 @@ contract AaveV3ArbitrumUpdate_20230502_Test is ProtocolV3TestBase, TestWithExecu
 
     _noReservesConfigsChangesApartFrom(allConfigsBefore, allConfigsAfter, assetsChanged);
 
+    // Address supplying DAI borrowing USDC with health factor below 1 after changes are applied
+    // as of block 92432492
+    address newlyUnhealthyAccount = 0xaCe9cB16fB8d47a8E383d0C9d13effFEF6Bb0dBC;
 
+    // Large USDC account
+    address liquidator = 0xf89d7b9c864f589bbF53a82105107622B35EaA40;
+
+    (
+      uint256 preTotalCollateralBase,
+      uint256 preTotalDebtBase,
+      uint256 preAvailableBorrowsBase,
+      uint256 preCurrentLiquidationThreshold,
+      uint256 preLtv,
+      uint256 preHealthFactor
+    ) = AaveV3Arbitrum.POOL.getUserAccountData(newlyUnhealthyAccount);
+
+    // Health factor should be below 1 before liquidation
+    assertEq(preHealthFactor, 993347944093530487);
+    assertEq(preTotalCollateralBase, 16419876479);
+    assertEq(preTotalDebtBase, 15703342165);
+
+    vm.startPrank(liquidator);
+
+    IERC20(AaveV3ArbitrumAssets.USDC_UNDERLYING).approve(
+      address(AaveV3Arbitrum.POOL),
+      type(uint256).max
+    );
+
+    AaveV3Arbitrum.POOL.liquidationCall(
+      AaveV3ArbitrumAssets.DAI_UNDERLYING,
+      AaveV3ArbitrumAssets.USDC_UNDERLYING,
+      newlyUnhealthyAccount,
+      type(uint256).max,
+      false
+    );
+
+    vm.stopPrank();
+
+    (
+      uint256 postTotalCollateralBase,
+      uint256 postTotalDebtBase,
+      uint256 postAvailableBorrowsBase,
+      uint256 postCurrentLiquidationThreshold,
+      uint256 postLtv,
+      uint256 postHealthFactor
+    ) = AaveV3Arbitrum.POOL.getUserAccountData(newlyUnhealthyAccount);
+
+    // Health factor should be above 1 after liquidation
+    assertEq(postHealthFactor, 1027195888336372876);
+    assertEq(postTotalCollateralBase, 8489688686);
+    assertEq(postTotalDebtBase, 7851671082);
   }
 }
 
