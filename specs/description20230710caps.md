@@ -6,7 +6,7 @@ discussions: [https://governance.aave.com/t/arfc-gauntlet-supply-cap-updates-for
 
 ## Summary
 
-Gauntlet recommends cap changes on Ethereum v3 and Optimism v3. For more details, see the full forum post [here]((https://governance.aave.com/t/arfc-gauntlet-supply-cap-updates-for-ethereum-v3-optimism-v3-2023-07-05/13917)).
+Gauntlet recommends cap changes on Ethereum v3 and Optimism v3. For more details, see the full forum post [here](https://governance.aave.com/t/arfc-gauntlet-supply-cap-updates-for-ethereum-v3-optimism-v3-2023-07-05/13917).
 
 
 ## Motivation
