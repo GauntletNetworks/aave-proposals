@@ -3,9 +3,9 @@
 pragma solidity ^0.8.0;
 
 import 'forge-std/Test.sol';
-import {TestWithExecutor} from 'aave-helpers/GovHelpers.sol';
 import {AaveGovernanceV2} from 'aave-address-book/AaveGovernanceV2.sol';
 import {ProtocolV3TestBase, ReserveConfig} from 'aave-helpers/ProtocolV3TestBase.sol';
+import {GovHelpers} from 'aave-helpers/GovHelpers.sol';
 import {
   AaveV3Arbitrum,
   AaveV3ArbitrumAssets
@@ -24,11 +24,9 @@ import {
   AaveV3PolygonUpdate20230329Payload
 } from './AaveV3Update_20230329.sol';
 
-contract AaveV3ArbitrumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecutor {
+contract AaveV3ArbitrumUpdate_20230329_Test is ProtocolV3TestBase {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('arbitrum'), 82691135);
-
-    _selectPayloadExecutor(AaveGovernanceV2.ARBITRUM_BRIDGE_EXECUTOR);
   }
 
   function testArbitrum20230329UpdatePayload() public {
@@ -42,7 +40,11 @@ contract AaveV3ArbitrumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecu
       AaveV3ArbitrumAssets.WETH_UNDERLYING
     );
 
-    _executePayload(address(new AaveV3ArbitrumUpdate20230329Payload()));
+    GovHelpers.executePayload(
+      vm,
+      address(new AaveV3ArbitrumUpdate20230329Payload()),
+      AaveGovernanceV2.ARBITRUM_BRIDGE_EXECUTOR
+    );
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestArbitrumUpdate20230329',
@@ -63,11 +65,9 @@ contract AaveV3ArbitrumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecu
   }
 }
 
-contract AaveV3EthereumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecutor {
+contract AaveV3EthereumUpdate_20230329_Test is ProtocolV3TestBase {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('mainnet'), 17093012);
-
-    _selectPayloadExecutor(AaveGovernanceV2.SHORT_EXECUTOR);
   }
 
   function testEthereum20230329UpdatePayload() public {
@@ -85,7 +85,11 @@ contract AaveV3EthereumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecu
       AaveV3EthereumAssets.CRV_UNDERLYING
     );
 
-    _executePayload(address(new AaveV3EthereumUpdate20230329Payload()));
+    GovHelpers.executePayload(
+      vm,
+      address(new AaveV3EthereumUpdate20230329Payload()),
+      AaveGovernanceV2.SHORT_EXECUTOR
+    );
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestEthereumUpdate20230329',
@@ -111,11 +115,9 @@ contract AaveV3EthereumUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecu
   }
 }
 
-contract AaveV3PolygonUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecutor {
+contract AaveV3PolygonUpdate_20230329_Test is ProtocolV3TestBase {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('polygon'), 41776268);
-
-    _selectPayloadExecutor(AaveGovernanceV2.POLYGON_BRIDGE_EXECUTOR);
   }
 
   function testPolygon20230329UpdatePayload() public {
@@ -133,7 +135,11 @@ contract AaveV3PolygonUpdate_20230329_Test is ProtocolV3TestBase, TestWithExecut
       AaveV3PolygonAssets.miMATIC_UNDERLYING
     );
 
-    _executePayload(address(new AaveV3PolygonUpdate20230329Payload()));
+    GovHelpers.executePayload(
+      vm,
+      address(new AaveV3PolygonUpdate20230329Payload()),
+      AaveGovernanceV2.POLYGON_BRIDGE_EXECUTOR
+    );
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTestPolygonUpdate20230329',
