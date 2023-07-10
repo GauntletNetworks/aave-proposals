@@ -122,9 +122,9 @@ export function generateTestFile(updateDate: string, updates: AllUpdates): strin
 pragma solidity ^0.8.0;
 
 import 'forge-std/Test.sol';
-import {TestWithExecutor} from 'aave-helpers/GovHelpers.sol';
 import {AaveGovernanceV2} from 'aave-address-book/AaveGovernanceV2.sol';
 import {ProtocolV3TestBase, ReserveConfig} from 'aave-helpers/ProtocolV3TestBase.sol';
+import {GovHelpers} from 'aave-helpers/GovHelpers.sol';
 ${Object.keys(updates)
   .map((network) => {
     return `\
@@ -146,13 +146,11 @@ ${Object.keys(updates)
     const perAssetChanges = asPerAssetChanges(update);
 
     return `\
-contract AaveV3${network}Update_${updateDate}_Test is ProtocolV3TestBase, TestWithExecutor {
+contract AaveV3${network}Update_${updateDate}_Test is ProtocolV3TestBase {
   function setUp() public {
     vm.createSelectFork(vm.rpcUrl('${foundryNetworkNamePerNetwork[network as Networks]}'), ${
       update.forkBlockNumber
     });
-
-    _selectPayloadExecutor(${executorPerNetwork[network as Networks]});
   }
 
   function test${network}${updateDate}UpdatePayload() public {
@@ -171,7 +169,11 @@ ${Object.keys(perAssetChanges)
   })
   .join('\n')}
 
-    _executePayload(address(new AaveV3${network}Update${updateDate}Payload()));
+    GovHelpers.executePayload(
+      vm,
+      address(new AaveV3${network}Update${updateDate}Payload()),
+      ${executorPerNetwork[network as Networks]}
+    );
 
     ReserveConfig[] memory allConfigsAfter = createConfigurationSnapshot(
       'postTest${network}Update${updateDate}',

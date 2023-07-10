@@ -26,7 +26,6 @@
   "homepage": "https://github.com/bgd-labs/aave-v3-crosschain-listing-template#readme",
   "devDependencies": {
     "@bgd-labs/aave-tenderly-cli": "^0.0.13",
-    "@bgd-labs/report-engine": "^0.0.8",
     "@types/bs58": "^4.0.1",
     "@types/node": "^18.15.13",
     "@types/node-fetch": "^2.6.3",
@@ -44,11 +43,9 @@
     "@bgd-labs/aave-cli": "^0.0.9",
     "commander": "^11.0.0",
     "viem": "^1.2.9",
-    "prettier-plugin-solidity": "^1.1.1",
     "stream-to-it": "^0.2.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "yargs": "^17.7.1"
-  },
-  "type": "module"
+  }
 }
