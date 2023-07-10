@@ -1,7 +1,7 @@
 import {AllUpdates, KEEP_CURRENT, NetworkUpdate} from '../generator/index.js';
 
 const ethUpdate = {
-  forkBlockNumber: 17093012,
+  forkBlockNumber: 17665537,
   capsUpdates: [
     {
       asset: 'BAL_UNDERLYING',
@@ -17,7 +17,7 @@ const ethUpdate = {
 } satisfies NetworkUpdate;
 
 const optimismUpdate = {
-  forkBlockNumber: 82691135,
+  forkBlockNumber: 106710491,
   capsUpdates: [
     {
       asset: 'OP_UNDERLYING',

@@ -21,7 +21,7 @@ import {
 
 contract AaveV3EthereumUpdate_20230710_Test is ProtocolV3TestBase {
   function setUp() public {
-    vm.createSelectFork(vm.rpcUrl('mainnet'), 17093012);
+    vm.createSelectFork(vm.rpcUrl('mainnet'), 17665537);
   }
 
   function testEthereum20230710UpdatePayload() public {
@@ -71,7 +71,7 @@ contract AaveV3EthereumUpdate_20230710_Test is ProtocolV3TestBase {
 
 contract AaveV3OptimismUpdate_20230710_Test is ProtocolV3TestBase {
   function setUp() public {
-    vm.createSelectFork(vm.rpcUrl('optimism'), 82691135);
+    vm.createSelectFork(vm.rpcUrl('optimism'), 106710491);
   }
 
   function testOptimism20230710UpdatePayload() public {
