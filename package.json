@@ -50,6 +50,5 @@
     "typescript": "^5.0.4",
     "yargs": "^17.7.1"
   },
-  "dependencies": {},
   "type": "module"
 }
