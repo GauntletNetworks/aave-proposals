@@ -75,7 +75,7 @@ export type RateStrategyUpdate = {
   params: RateStrategyParams;
 };
 
-export type Networks = 'Ethereum' | 'Polygon' | 'Arbitrum' | 'Optimism' | 'Avalanche';
+export type Networks = 'Ethereum' | 'Polygon' | 'Arbitrum' | 'Optimism' | 'Avalanche' | 'Metis';
 
 export const govHelperNetworkNames: Record<Networks, string> = {
   Ethereum: 'Mainnet',
@@ -83,6 +83,7 @@ export const govHelperNetworkNames: Record<Networks, string> = {
   Arbitrum: 'Arbitrum',
   Optimism: 'Optimism',
   Avalanche: 'Avalanche',
+  Metis: 'Metis'
 };
 
 export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
@@ -91,6 +92,7 @@ export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
   Arbitrum: 'arbitrum',
   Optimism: 'optimism',
   Avalanche: 'avalanche',
+  Metis: 'metis'
 };
 
 export interface NetworkUpdate {
