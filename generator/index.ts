@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import {$} from 'execa';
 
 import {uploadToIpfs} from './ipfs.js';
-import {generatePayloadFile} from './payload.js';
+import {generatePayloadFiles} from './payload.js';
 import {generateDeployFile} from './deploy.js';
 import {generateTestFile} from './test.js';
 
@@ -83,7 +83,7 @@ export const govHelperNetworkNames: Record<Networks, string> = {
   Arbitrum: 'Arbitrum',
   Optimism: 'Optimism',
   Avalanche: 'Avalanche',
-  Metis: 'Metis'
+  Metis: 'Metis',
 };
 
 export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
@@ -92,7 +92,7 @@ export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
   Arbitrum: 'arbitrum',
   Optimism: 'optimism',
   Avalanche: 'avalanche',
-  Metis: 'metis'
+  Metis: 'metis',
 };
 
 export interface NetworkUpdate {
@@ -134,15 +134,20 @@ function createFiles(folderPath: string, files: Files): void {
 
 // Function to generate the AaveV3 Caps Update Solidity files
 function generateAaveV3UpdateFiles(updateDate: string, updates: AllUpdates): Files {
-  const payloadFile = generatePayloadFile(updateDate, updates);
+  const payloadFiles = generatePayloadFiles(updateDate, updates);
   const deployFile = generateDeployFile(updateDate, updates);
   const testFile = generateTestFile(updateDate, updates);
 
-  return {
-    [`AaveV3Update_${updateDate}.sol`]: payloadFile,
+  const files = {
     [`AaveV3Update_${updateDate}_Test.t.sol`]: testFile,
     [`DeployAaveV3Update_${updateDate}.s.sol`]: deployFile,
   };
+
+  for (const network of Object.keys(payloadFiles)) {
+    files[`AaveV3${network}_${updateDate}.sol`] = payloadFiles[network];
+  }
+
+  return files;
 }
 
 function generateFollowupCommands(updateDate: string, updates: AllUpdates) {

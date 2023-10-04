@@ -7,24 +7,33 @@ import {
   NetworkUpdate,
 } from './index.js';
 
-export function generatePayloadFile(updateDate: string, updates: AllUpdates): string {
+export function generatePayloadFiles(
+  updateDate: string,
+  updates: AllUpdates
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.keys(updates).map((network) => [
+      network,
+      generatePayloadFile(updateDate, updates[network as Networks]!, network),
+    ])
+  );
+}
+
+export function generatePayloadFile(
+  updateDate: string,
+  update: NetworkUpdate,
+  network: string
+): string {
   const payloadFile = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import {IEngine,EngineFlags,Rates} from 'aave-helpers/v3-config-engine/AaveV3PayloadBase.sol';
-${Object.keys(updates)
-  .map((network) => {
-    return `import {
+import {
   AaveV3Payload${network},
   AaveV3${network}Assets
-} from 'aave-helpers/v3-config-engine/AaveV3Payload${network}.sol';`;
-  })
-  .join('\n')}
+} from 'aave-helpers/v3-config-engine/AaveV3Payload${network}.sol';
 
-${Object.keys(updates)
-  .map((network) => {
-    const update = updates[network as Networks] as NetworkUpdate;
-    return `contract AaveV3${network}Update${updateDate}Payload is AaveV3Payload${network} {
+contract AaveV3${network}Update${updateDate}Payload is AaveV3Payload${network} {
 ${
   update.capsUpdates && update.capsUpdates.length > 0
     ? `  function capsUpdates() public pure override returns (IEngine.CapsUpdate[] memory) {
@@ -44,8 +53,8 @@ ${update.capsUpdates
   }`
     : ''
 }${
-      update.collateralUpdates && update.collateralUpdates.length > 0
-        ? `  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
+    update.collateralUpdates && update.collateralUpdates.length > 0
+      ? `  function collateralsUpdates() public pure override returns (IEngine.CollateralUpdate[] memory) {
     IEngine.CollateralUpdate[] memory collateralUpdates = new IEngine.CollateralUpdate[](${
       update.collateralUpdates.length
     });
@@ -66,10 +75,10 @@ ${update.collateralUpdates
 
     return collateralUpdates;
   }`
-        : ''
-    }${
-      update.borrowUpdates && update.borrowUpdates.length > 0
-        ? `  function borrowsUpdates() public pure override returns (IEngine.BorrowUpdate[] memory) {
+      : ''
+  }${
+    update.borrowUpdates && update.borrowUpdates.length > 0
+      ? `  function borrowsUpdates() public pure override returns (IEngine.BorrowUpdate[] memory) {
     IEngine.BorrowUpdate[] memory borrowUpdates = new IEngine.BorrowUpdate[](${
       update.borrowUpdates.length
     });
@@ -91,10 +100,10 @@ ${update.borrowUpdates
 
     return borrowUpdates;
   }`
-        : ''
-    }${
-      update.priceFeedUpdates && update.priceFeedUpdates.length > 0
-        ? `  function priceFeedsUpdates() public pure override returns (IEngine.PriceFeedUpdate[] memory) {
+      : ''
+  }${
+    update.priceFeedUpdates && update.priceFeedUpdates.length > 0
+      ? `  function priceFeedsUpdates() public pure override returns (IEngine.PriceFeedUpdate[] memory) {
     IEngine.PriceFeedUpdate[] memory priceFeedUpdates = new IEngine.PriceFeedUpdate[](${
       update.priceFeedUpdates.length
     });
@@ -111,10 +120,10 @@ ${update.priceFeedUpdates
 
     return priceFeedUpdates;
   }`
-        : ''
-    }${
-      update.rateStrategyUpdates && update.rateStrategyUpdates.length > 0
-        ? `  function rateStrategiesUpdates() public pure override returns (IEngine.RateStrategyUpdate[] memory) {
+      : ''
+  }${
+    update.rateStrategyUpdates && update.rateStrategyUpdates.length > 0
+      ? `  function rateStrategiesUpdates() public pure override returns (IEngine.RateStrategyUpdate[] memory) {
     IEngine.RateStrategyUpdate[] memory rateStrategyUpdates = new IEngine.RateStrategyUpdate[](${
       update.rateStrategyUpdates.length
     });
@@ -144,12 +153,9 @@ ${update.rateStrategyUpdates
 
     return rateStrategyUpdates;
   }`
-        : ''
-    }
+      : ''
+  }
 }`;
-  })
-  .filter((x) => x)
-  .join('\n\n')}`;
 
   return payloadFile;
 }

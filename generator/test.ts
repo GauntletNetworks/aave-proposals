@@ -135,11 +135,14 @@ import {
 } from 'aave-helpers/v3-config-engine/AaveV3Payload${network}.sol';`;
   })
   .join('\n')}
-import {
 ${Object.keys(updates)
-  .map((network) => `  AaveV3${network}Update${updateDate}Payload`)
-  .join(',\n')}
-} from './AaveV3Update_${updateDate}.sol';
+  .map((network) => {
+    return `\
+import {
+  AaveV3${network}Update${updateDate}Payload
+} from './AaveV3${network}_${updateDate}.sol';`;
+  })
+  .join('\n')}
 
 ${Object.keys(updates)
   .map((network) => {

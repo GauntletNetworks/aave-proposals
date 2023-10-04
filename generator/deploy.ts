@@ -17,11 +17,14 @@ ${!hasEthereum ? `  EthereumScript,\n` : ''}${Object.keys(updates)
     .map((network) => `  ${network}Script`)
     .join(',\n')}
 } from 'aave-helpers/ScriptUtils.sol';
-import {
 ${Object.keys(updates)
-  .map((network) => `  AaveV3${network}Update${updateDate}Payload`)
-  .join(',\n')}
-} from './AaveV3Update_${updateDate}.sol';
+  .map((network) => {
+    return `\
+import {
+  AaveV3${network}Update${updateDate}Payload
+} from './AaveV3${network}_${updateDate}.sol';`;
+  })
+  .join('\n')}
 
 contract CreateProposal is EthereumScript {
   function run() external broadcast {
