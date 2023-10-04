@@ -38,7 +38,13 @@ ${networksOtherThanGuardian
     }(address(0));`;
   })
   .join('\n')}
-    GovHelpers.createProposal(payloads, '');
+    GovHelpers.createProposal(
+      payloads,
+      GovHelpers.ipfsHashFile(
+        vm,
+        'src/AaveV3Update_${updateDate}/AaveV3Update_${updateDate}.md'
+      )
+    );
   }
 }
 
