@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022"],
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "include": [
+    "generator/**/*",
+    "specs/**/*",
+  ],
+  "exclude": ["node_modules"],
+  "files": ["./types/stream-to-it.d.ts"]
+}
