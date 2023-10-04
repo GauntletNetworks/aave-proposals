@@ -33,6 +33,11 @@ import {
   AaveV3${network}Assets
 } from 'aave-helpers/v3-config-engine/AaveV3Payload${network}.sol';
 
+/**
+  * @title ${update.title}
+  * @author ${update.author}
+  * - Discussion: ${update.discussionsUrl}
+ */
 contract AaveV3${network}Update${updateDate}Payload is AaveV3Payload${network} {
 ${
   update.capsUpdates && update.capsUpdates.length > 0

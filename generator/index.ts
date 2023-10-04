@@ -97,6 +97,9 @@ export const foundryNetworkNamePerNetwork: Record<Networks, string> = {
 
 export interface NetworkUpdate {
   forkBlockNumber: number;
+  author: string;
+  title: string;
+  discussionsUrl: string;
   capsUpdates?: CapsUpdate[];
   collateralUpdates?: CollateralUpdate[];
   borrowUpdates?: BorrowUpdate[];
