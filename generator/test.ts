@@ -217,6 +217,7 @@ ${Object.keys(perAssetChanges)
     }`;
   })
   .join('\n')}
+    e2eTest(AaveV3${network}.POOL);
   }
 }`;
   })
